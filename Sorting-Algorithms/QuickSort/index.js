@@ -1,25 +1,34 @@
-const list = [1, 3, 22, 8, 9, 9, 7, 4, 3, 10]
+var arr = [10, 80, 30, 90, 40, 50, 70]
+var high = arr.length;
 
-function merge(left, right) {
-    const arr = [];
+function quickSort(arr, low, high) {
 
-    while (left.length && right.length) {
-        const item = left[0] < right[0] ? left.shift() : right.shift();
-        arr.push(item);
+    if (low < high) {
+        let pi = partition(arr, low, high);
+        quickSort(arr, low, pi - 1)
+        quickSort(arr, pi + 1, high)
     }
-
-    return [...arr, ...left, ...right];
 }
 
+function partition(arr, low, high) {
+    const pivot = arr[high];
+    let index = low - 1;
 
-function mergeShort(array) {
-    const half = array.length / 2;
-    if (array.length < 2) {
-        return array;
+    for (let j = low; j <= high - 1; j++) {
+        if (arr[j] < pivot) {
+            index++;
+            swap(arr, index, j)
+        }
     }
+    swap(arr, index + 1, high);
+    return (index + 1)
 
-    const left = array.splice(0, half);
-    return merge(mergeShort(left), mergeShort(array));
 }
-const result = mergeShort(list1, list2) 
-console.log(result) // 1, 3, 3, 4, 7, 8, 9, 9, 10, 22;
+
+function swap(arr, i, j) {
+    const temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+}
+quickSort(arr, 0, high - 1)
+console.log(arr);
